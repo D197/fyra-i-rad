@@ -27,5 +27,5 @@ Scenario: Diagonal win (right to left)
   Then she should win
   
 Scenario: Draw
-  When two players play but noone wins
+  When two players play but no one wins
   Then it should be a draw
