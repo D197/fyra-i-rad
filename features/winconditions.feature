@@ -25,3 +25,7 @@ Scenario: Diagonal win (left to right)
 Scenario: Diagonal win (right to left)
   When the first player plays 4 bricks in a diagonally (right to left)
   Then she should win
+  
+Scenario: Draw
+  When two players play but noone wins
+  Then it should be a draw
