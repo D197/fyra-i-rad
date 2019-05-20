@@ -181,5 +181,46 @@ module.exports = function(){
     assert.equal(winText, "Spelare 1 vann, efter 6 drag!");
     
   });
+  this.When(/^two players play but noone wins$/, {timeout: 100 * 1000}, async function () {
+    while (true){
+      let slots = await $('.slot');
+      await sleep(1000);
+      await slots[0].click();
+      await sleep(1000);
+      await slots[6].click();
+      await sleep(1000);
+      await slots[1].click();
+      await sleep(1000);
+      await slots[5].click();
+      await sleep(1000);
+      await slots[4].click();
+      await sleep(1000);
+      await slots[2].click();
+      await sleep(1000);
+      await slots[3].click();
+      await sleep(1000);
+      let gameInfoH3 = await $('.game-info h3');
+      let text;
+      try {
+        text = await gameInfoH3.getText();
+      }
+      catch(e){
+        continue;
+      }
+      if(text.includes('oavgjort')){
+        break;
+      }
+      await sleep(100);
+    }
 
+  });
+
+  this.Then(/^it should be a draw$/, async function (){
+    let drawText = await $('.game-info h3');
+    await sleep(1000);
+    let draw = await drawText.getText();
+    await sleep(1000);
+    assert.isTrue(draw.includes('oavgjort'), console.log("Game draw"));
+  });
+}
 }
