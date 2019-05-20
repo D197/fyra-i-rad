@@ -223,4 +223,3 @@ module.exports = function(){
     assert.isTrue(draw.includes('oavgjort'), console.log("Game draw"));
   });
 }
-}
