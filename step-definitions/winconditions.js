@@ -181,7 +181,7 @@ module.exports = function(){
     assert.equal(winText, "Spelare 1 vann, efter 6 drag!");
     
   });
-  this.When(/^two players play but noone wins$/, {timeout: 100 * 1000}, async function () {
+  this.When(/^two players play but no one wins$/, {timeout: 100 * 1000}, async function () {
     while (true){
       let slots = await $('.slot');
       await sleep(1000);
