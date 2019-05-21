@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "node node_modules/selenium-cucumber-js/index.js -f ./features/smart-vs-dum.feature -s ./step-definitions & exit 0"
+    "test": "node node_modules/selenium-cucumber-js/index.js -s ./step-definitions & exit 0"
   },
   "author": "",
   "license": "ISC",
