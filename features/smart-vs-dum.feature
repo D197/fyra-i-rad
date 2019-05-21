@@ -9,3 +9,7 @@ Feature: Vem vinner när smart möter dum.
     Scenario: Vinner smart över dum
         When när spelet är klart
         Then då är det oavgjort eller finns en vinnare
+
+    Scenario: Vinner smart jämt över dum?
+        When när 20 spel har spelats
+        Then ska det finnas statistik och en vinnare

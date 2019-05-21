@@ -1,6 +1,15 @@
 let { $, sleep } = require('./funcs');
 
+const fs = require('fs');
+
 let timeOut5Min = 5 * 60 * 1000
+let timeOut60Min = 60 * 60 * 1000
+
+let statistik = {
+    smart: 0,
+    dum: 0,
+    oavgjort: 0
+}
 
 module.exports = function () {
 
@@ -65,4 +74,58 @@ module.exports = function () {
         trace("Spelet slutade i: " + result)
     });
 
+
+    this.When(/^när (\d+) spel har spelats$/, { timeout: timeOut60Min }, async function (antal) {
+        // Vänta på att spelet är slut
+        await driver.wait(until.elementLocated(By.css(".again-btn")), timeOut60Min);
+
+        // spara undan resultat
+        let gameInfo = await $('.game-info h3');
+        let resultat = await gameInfo.getText();
+
+        if (resultat.includes('oavgjort')) {
+            statistik.oavgjort = statistik.oavgjort + 1;
+        } else if (resultat.includes('Smart vann')) {
+            statistik.smart = statistik.smart + 1;
+        } else {
+            statistik.dum = statistik.dum + 1;
+        }
+
+        // spela resten
+        for (i = 1; i < antal; i++) {
+            // klicka spela igen
+            let againButton = await $(".again-btn")
+            againButton.click();
+
+            let beginButton = await $('.begin-btn');
+            beginButton.click();
+
+            // Vänta på att spelet är slut
+            await driver.wait(until.elementLocated(By.css(".again-btn")), timeOut60Min);
+
+            // spara undan resultat
+            let gameInfo = await $('.game-info h3');
+            let resultat = await gameInfo.getText();
+
+            if (resultat.includes('oavgjort')) {
+                statistik.oavgjort = statistik.oavgjort + 1;
+            } else if (resultat.includes('Smart vann')) {
+                statistik.smart = statistik.smart + 1;
+            } else {
+                statistik.dum = statistik.dum + 1;
+            }
+
+        }
+
+    });
+
+    this.Then(/^ska det finnas statistik och en vinnare$/, { timeout: timeOut60Min }, async function () {
+        let statistikText = "Smart: " + statistik.smart + "\n" +  "Dum: " + statistik.dum + "\n" + "Oavgjort: " + statistik.oavgjort + "\n";
+
+        fs.appendFileSync("Statistik.txt", statistikText, "UTF-8",  {'flags': 'a+'}, (err) => {
+            if (err) throw err;
+        })
+
+        trace(statistikText);
+    });
 }
