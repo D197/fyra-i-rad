@@ -65,12 +65,12 @@ module.exports = function () {
         await driver.wait(until.elementLocated(By.css(".again-btn")), timeOut5Min);
     });
 
-    this.Then(/^då är det oavgjort eller finns en vinnare$/, { timeout: timeOut5Min }, async function () {
+    this.Then(/^då är det smart som är en vinnare$/, { timeout: timeOut5Min }, async function () {
         let gameInfo = await $('.game-info h3');
         await sleep(1000);
         let result = await gameInfo.getText();
 
-        assert.isTrue(result.includes('oavgjort') || result.includes('vann'));
+        assert.isTrue(result.includes('Smart vann'));
         trace("Spelet slutade i: " + result)
     });
 
