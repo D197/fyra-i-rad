@@ -83,7 +83,7 @@ module.exports = function () {
               await inputFields[1].sendKeys('SMART2');
       
       
-              // Sätt typ spelare 1 o 2 till Dum Bot
+              // Sätt typ spelare 1 o 2 till Bot
               let typeChoiceButtons = await $('.type-choice-btn');
               for (let typeChoiceButton of typeChoiceButtons) {
                   await typeChoiceButton.click();
